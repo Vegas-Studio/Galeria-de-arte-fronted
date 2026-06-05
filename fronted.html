@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gallery Admin | Artwork Management</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-width: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Custom Scrollbar for sidebars */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E0E0E0;
+        }
+    </style>
+<!-- Shared Components Logic: Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#303031",
+                    "on-primary-container": "#858383",
+                    "on-background": "#1b1c1c",
+                    "tertiary": "#000000",
+                    "tertiary-fixed": "#e2e2e2",
+                    "primary": "#000000",
+                    "secondary-fixed": "#ffdea5",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "secondary": "#775a19",
+                    "background": "#fbf9f8",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "inverse-on-surface": "#f2f0f0",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "on-surface-variant": "#444748",
+                    "surface-container-low": "#f5f3f3",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dbdad9",
+                    "surface-variant": "#e4e2e2",
+                    "on-secondary-fixed": "#261900",
+                    "tertiary-container": "#1a1c1c",
+                    "on-surface": "#1b1c1c",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-tint": "#5f5e5e",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1c1b1b",
+                    "surface-container": "#efeded",
+                    "on-primary-fixed-variant": "#474746",
+                    "secondary-container": "#fed488",
+                    "outline": "#747878",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "on-secondary-container": "#785a1a",
+                    "surface-container-highest": "#e4e2e2",
+                    "surface-bright": "#fbf9f8",
+                    "on-tertiary-container": "#838484",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#c8c6c5",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "outline-variant": "#c4c7c7",
+                    "surface": "#fbf9f8",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e9e8e7",
+                    "secondary-fixed-dim": "#e9c176",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "data-mono": ["Hanken Grotesk"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "headline-lg": ["Libre Caslon Text"],
+                    "headline-sm": ["Libre Caslon Text"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface-container-low border-r border-outline-variant flex flex-col z-20 transition-transform duration-300" id="side-nav">
+<div class="px-8 py-10">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">palette</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary font-bold">Obsidian Gallery</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Exhibition Management</p>
+</div>
+</div>
+<nav class="space-y-1">
+<!-- ACTIVE TAB: Artworks -->
+<a class="flex items-center gap-4 px-4 py-4 text-primary font-bold border-l-4 border-primary bg-surface-container-high transition-all hover:bg-surface-container-highest cursor-pointer" href="#">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-md text-label-md uppercase">Artworks</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-4 text-on-surface-variant transition-all hover:bg-surface-container-highest cursor-pointer" href="#">
+<span class="material-symbols-outlined">person_outline</span>
+<span class="font-label-md text-label-md uppercase">Artists</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-4 text-on-surface-variant transition-all hover:bg-surface-container-highest cursor-pointer" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md uppercase">Messages</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-4 text-on-surface-variant transition-all hover:bg-surface-container-highest cursor-pointer" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md uppercase">Stats</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto px-8 py-10 border-t border-outline-variant space-y-4">
+<button class="w-full py-4 bg-secondary text-on-primary font-label-md text-label-md uppercase tracking-widest hover:bg-opacity-90 transition-colors active:scale-95" onclick="toggleModal('upload-modal')">
+                Publish Exhibition
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label-md text-label-md uppercase">Support</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md uppercase">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] h-screen flex flex-col relative">
+<!-- TopAppBar -->
+<header class="h-16 flex justify-between items-center w-full px-margin-desktop bg-surface border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">Gallery Admin</span>
+</div>
+<div class="flex items-center gap-8 h-full">
+<!-- Search Mockup -->
+<div class="relative flex items-center bg-surface-container-low px-4 py-2 w-64">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 font-body-sm w-full text-on-surface" placeholder="Search artworks..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 transition-colors">notifications</button>
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 transition-colors">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="Curator Profile" class="w-full h-auto" data-alt="A professional headshot of a female art curator in her 40s with a sophisticated, minimalist style. She is wearing a structured black blazer against a clean, neutral gallery wall background. The lighting is soft and directional, creating a high-end, authoritative professional atmosphere suitable for an elite art management platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIwm5c1dG6hz72cs8AXxhxff6P8cpsGKc1A02Gqyw7SbHUlN09vk2czqosm492j2JWuC76OZiOw4AXMMtbLNJnqPtg89Juy831D71U75-cM2MlDDgPGZCJF2fcqTX3pPgBdKlSkpUKE-MSX14I7zkVqMDqfkKxuRZrxc_Z5mSG5phQPP1uczf2fb6a26bGNKYUi7fBbgNsG3954ITdv-MxLeeoKiNMyeGmhWQWnxInGgMg9x28ymcmyVwh5NKEl_j5urnvqKXSIbM"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<section class="flex-grow overflow-auto p-margin-desktop bg-background">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Artwork Inventory</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Manage the digital curation of the Obsidian collection. Review pending submissions and update exhibition statuses with curatorial precision.</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-4 font-label-md text-label-md uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-opacity-80 transition-all active:scale-95 shadow-md" onclick="toggleModal('upload-modal')">
+<span class="material-symbols-outlined">add</span>
+                        Upload New Work
+                    </button>
+</div>
+<!-- Stats Bento (Secondary visual context) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-10">
+<div class="bg-white border border-outline-variant p-6 flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Total Collection</span>
+<span class="font-headline-lg text-headline-lg text-primary">1,248</span>
+</div>
+<div class="bg-white border border-outline-variant p-6 flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Pending Review</span>
+<span class="font-headline-lg text-headline-lg text-secondary">24</span>
+</div>
+<div class="bg-white border border-outline-variant p-6 flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Storage Used</span>
+<span class="font-headline-lg text-headline-lg text-primary">64%</span>
+</div>
+</div>
+<!-- Data Grid -->
+<div class="bg-white border border-outline-variant overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary text-on-primary">
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Preview</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Title</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Artist</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Year</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Technique</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="w-12 h-12 border border-primary bg-surface-container overflow-hidden">
+<img alt="Artwork preview" class="w-full h-full object-cover" data-alt="A vibrant, contemporary abstract painting featuring layered impasto brushstrokes in deep blues, charcoal greys, and striking metallic gold leaf accents. The texture is palpable and luxurious. Set within a minimalist management interface, this image embodies the premium and artistic spirit of the Obsidian Gallery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjdjtNvlctNtir026wltjJ_qb2LNtq3JNV5VQw-roJVClqKv1MJry91jaFzcFLwWSUNlEplMPACMQpWyYvSh248Yul9xnqfagHCsoholaNmW6sCVVhAlLOUu6L1CTY-O1TXy7vhuwid03vS89pGSrnusT1IfPFc7Lld2NGm3T6pbhI7SxLuJQvu-PC5JJHDo0Y1HZTlsiN-ORJSd8jVP8yWzBL3ub0tS6FQJnwykJGC2tzybmTSS5K9ri_4m24O9hfTKdUNMIw0zQ"/>
+</div>
+</td>
+<td class="px-6 py-4 font-headline-sm text-headline-sm text-primary">Ephemeral Echo</td>
+<td class="px-6 py-4 font-body-md text-body-md">Soren K. Voss</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">2023</td>
+<td class="px-6 py-4 font-body-sm text-body-sm">Mixed Media on Linen</td>
+<td class="px-6 py-4">
+<span class="status-badge border-[#C5A059] text-[#C5A059] bg-[#C5A059]/10 font-label-md text-label-md uppercase">Pendiente</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-primary hover:underline font-label-md text-label-md uppercase">View Details</button>
+<button class="text-on-surface-variant hover:text-primary material-symbols-outlined">mail</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors group">
+<td class="px-6 py-4">
+<div class="w-12 h-12 border border-primary bg-surface-container overflow-hidden">
+<img alt="Artwork preview" class="w-full h-full object-cover" data-alt="A minimalist architectural photograph of a spiral staircase in a white concrete museum. The lighting creates stark shadows and highlights, emphasizing geometric purity. The composition is clean and focused, reflecting the curatorial precision and elite aesthetic of the Obsidian digital environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5Sfa_zK_kyRjHv4RDJnbVw3FulVBFI_H7YBT3UhF79l4EyD5sAiGwXEG63lSeUbPUq_JjkWil9T1LhaaAfWS7LNpS6FP6tnuGxmuc0xZvdfjoJkKAfEY2QebVnbZFJZntXxMs5wpk0eFrqqp0XuGdZgwEzQwqGaCgX7Mk7eP4JTzCdwDOC1IgNPCTKvhqX-DkbJsXcuKUzRlH4-76D_vitJiX7Yj81YklCC83C7rSlkFZFtLNHQjIQAxZGeNM3pFZ_7QhshijkMI"/>
+</div>
+</td>
+<td class="px-6 py-4 font-headline-sm text-headline-sm text-primary">Void Fragment IV</td>
+<td class="px-6 py-4 font-body-md text-body-md">Elena Ricci</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">2024</td>
+<td class="px-6 py-4 font-body-sm text-body-sm">Giclée Fine Art Print</td>
+<td class="px-6 py-4">
+<span class="status-badge border-green-700 text-green-700 bg-green-50 font-label-md text-label-md uppercase">Aprobado</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-primary hover:underline font-label-md text-label-md uppercase">View Details</button>
+<button class="text-on-surface-variant hover:text-primary material-symbols-outlined">mail</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="w-12 h-12 border border-primary bg-surface-container overflow-hidden">
+<img alt="Artwork preview" class="w-full h-full object-cover" data-alt="An atmospheric oil painting of a moody landscape during twilight. Deep purples, charred blacks, and soft glowing embers of orange create a sense of dramatic stillness. The style is romantic yet contemporary, suggesting high value and emotional depth within the gallery's curated selection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsdispJTgXFy7KujZcbW8qflNyWSTl6Wuc9B_wpwAUHrYo6VSqD5KklAtU3O5OB8lzNbAbWYVpVH3Rp34OUjZrDMZmXbxUuONfZ2lhAYvPD-p-cemjwKioatKCvbhFMymN1f6MLZ6bCg_muqtEXjERAqK34MJHN6O4TmdT2FZpKXIa2akZxsS_zKaOblHd8V2ekysZwtiLN7_uzHxotwWP_82jJB1X5QSLEG-krkzC1Usa0zlf3Ys_LzYytfjaG-KDO-ehPkhZz08"/>
+</div>
+</td>
+<td class="px-6 py-4 font-headline-sm text-headline-sm text-primary">Midnight Solace</td>
+<td class="px-6 py-4 font-body-md text-body-md">Julian Thorne</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">2022</td>
+<td class="px-6 py-4 font-body-sm text-body-sm">Oil on Canvas</td>
+<td class="px-6 py-4">
+<span class="status-badge border-error text-error bg-error-container font-label-md text-label-md uppercase">Rechazado</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-primary hover:underline font-label-md text-label-md uppercase">View Details</button>
+<button class="text-on-surface-variant hover:text-primary material-symbols-outlined">mail</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors group">
+<td class="px-6 py-4">
+<div class="w-12 h-12 border border-primary bg-surface-container overflow-hidden">
+<img alt="Artwork preview" class="w-full h-full object-cover" data-alt="A modern digital artwork consisting of fluid, iridescent 3D ribbons floating in a dark vacuum. The colors shift between violet, emerald, and chrome. The lighting is crisp and electronic, representing the cutting-edge virtual exhibitions hosted by the Obsidian Gallery management system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz0QUHj_y8d4JU4UC7AmUSVoev83N35DhRCn0mBWSJhvxr7S-Bb5wz8KX_zcGPMSoT2Ni_a7SZl4XpbgcrlClM6Lx1l-WgtDTYjUwubeqWuGLw7dBbtdQgM93lHamqP9wI_PbKOt2iO4ICuvevbjwTLb3CuXh8wdOGmZn_NnqflNloPkppV8BLNRv9Gp9R0eRZVm1TKpx489MdlFNBOY2TN_ygXBGs5XjG4wiB4lnW_nTgwvFYqSEQyxGkBfcKudIgPaFT4M6rfuI"/>
+</div>
+</td>
+<td class="px-6 py-4 font-headline-sm text-headline-sm text-primary">Liquid Silicon</td>
+<td class="px-6 py-4 font-body-md text-body-md">Amara Okafor</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">2024</td>
+<td class="px-6 py-4 font-body-sm text-body-sm">Digital 3D Sculpture</td>
+<td class="px-6 py-4">
+<span class="status-badge border-[#C5A059] text-[#C5A059] bg-[#C5A059]/10 font-label-md text-label-md uppercase">Pendiente</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-primary hover:underline font-label-md text-label-md uppercase">View Details</button>
+<button class="text-on-surface-variant hover:text-primary material-symbols-outlined">mail</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Mock -->
+<div class="px-6 py-6 border-t border-outline-variant flex justify-between items-center">
+<span class="font-body-sm text-on-surface-variant">Showing 4 of 1,248 entries</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary">1</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low">2</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low">3</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Upload New Work Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" id="upload-modal">
+<div class="bg-white w-full max-w-2xl transform translate-y-4 transition-transform duration-300">
+<div class="p-8 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Upload New Work</h3>
+<button class="material-symbols-outlined hover:bg-surface-container-low p-2" onclick="toggleModal('upload-modal')">close</button>
+</div>
+<form class="p-8 space-y-6">
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Column 1 -->
+<div class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Artwork Title</label>
+<input class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md" placeholder="e.g. The Persistence of Time" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Creation Year</label>
+<input class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md" placeholder="2024" type="number"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Technique</label>
+<input class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md" placeholder="Oil on Canvas" type="text"/>
+</div>
+</div>
+<!-- Column 2 -->
+<div class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Dimensions</label>
+<input class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md" placeholder="120 x 180 cm" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Tags</label>
+<input class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md" placeholder="abstract, modern, blue" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md uppercase mb-2 text-on-surface-variant">Artist</label>
+<select class="w-full border-b border-primary focus:border-b-2 focus:ring-0 px-0 py-2 font-body-md bg-transparent">
+<option>Select Artist...</option>
+<option>Soren K. Voss</option>
+<option>Elena Ricci</option>
+<option>Julian Thorne</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Image Upload Zone -->
+<div class="mt-8 border-2 border-dashed border-outline-variant p-10 text-center hover:border-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-4 group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="font-body-md text-on-surface-variant">Drag and drop high-resolution artwork image or <span class="text-primary underline">browse files</span></p>
+<p class="font-label-md text-label-md text-on-surface-variant/60 mt-2">Maximum file size: 50MB. PNG, TIFF, or JPEG.</p>
+</div>
+<div class="pt-8 flex justify-end gap-4">
+<button class="px-8 py-3 border border-primary text-primary font-label-md text-label-md uppercase tracking-wider hover:bg-surface-container-low" onclick="toggleModal('upload-modal')" type="button">Cancel</button>
+<button class="px-8 py-3 bg-secondary text-on-primary font-label-md text-label-md uppercase tracking-wider hover:bg-opacity-90" type="submit">Confirm Upload</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('div');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                // Force reflow
+                void modal.offsetWidth;
+                modal.classList.remove('opacity-0');
+                content.classList.remove('translate-y-4');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('opacity-0');
+                content.classList.add('translate-y-4');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+        }
+
+        // Close modal on escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('[id$="-modal"]');
+                modals.forEach(modal => {
+                    if (!modal.classList.contains('hidden')) toggleModal(modal.id);
+                });
+            }
+        });
+
+        // Simple dashboard notification for demo
+        window.onload = () => {
+            console.log("Obsidian Gallery Management System Initialized.");
+        };
+    </script>
+</body></html>

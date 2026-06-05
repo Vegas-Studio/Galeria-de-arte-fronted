@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OBSIDIAN GALLERY | The Obsidian Collective: Volume I</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#5f5e5e",
+                    "secondary-container": "#fed488",
+                    "primary": "#000000",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#785a1a",
+                    "on-primary-fixed": "#1c1b1b",
+                    "on-surface": "#1b1c1c",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#261900",
+                    "surface": "#fbf9f8",
+                    "outline-variant": "#c4c7c7",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fbf9f8",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "inverse-surface": "#303031",
+                    "primary-container": "#1c1b1b",
+                    "on-primary-fixed-variant": "#474746",
+                    "surface-dim": "#dbdad9",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#858383",
+                    "secondary-fixed": "#ffdea5",
+                    "outline": "#747878",
+                    "inverse-primary": "#c8c6c5",
+                    "on-background": "#1b1c1c",
+                    "inverse-on-surface": "#f2f0f0",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#444748",
+                    "secondary": "#775a19",
+                    "background": "#fbf9f8",
+                    "surface-container-low": "#f5f3f3",
+                    "tertiary": "#000000",
+                    "surface-variant": "#e4e2e2",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-tertiary-container": "#838484",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "tertiary-container": "#1a1c1c",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#e5e2e1",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "surface-container-high": "#e9e8e7",
+                    "surface-container": "#efeded"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "body-md": ["Hanken Grotesk"],
+                    "data-mono": ["Hanken Grotesk"],
+                    "headline-sm": ["Libre Caslon Text"],
+                    "headline-lg": ["Libre Caslon Text"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-md": ["Libre Caslon Text"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .masonry-grid {
+            column-count: 1;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 40px;
+        }
+        .curatorial-overlay {
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
+        }
+        .artwork-card:hover .artwork-action {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-margin-desktop py-6 max-w-container-max mx-auto">
+<a class="font-display-lg text-headline-md tracking-widest text-primary uppercase" href="#">OBSIDIAN GALLERY</a>
+<div class="hidden md:flex gap-10 items-center">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Exhibitions</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Artists</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Archive</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">search</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</div>
+</nav>
+<main class="pt-[90px]">
+<!-- Hero Section -->
+<section class="relative w-full h-[870px] overflow-hidden bg-primary-container">
+<img alt="Featured Exhibition" class="w-full h-full object-cover opacity-80" data-alt="A massive, high-contrast black and white digital artwork displayed in a vast, minimalist gallery with white floors and grey walls. The artwork features complex, static-like monochromatic structures. The lighting is focused and dramatic, highlighting the scale of the piece within the high-end virtual space. The atmosphere is quiet, authoritative, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhHAlcsRr11YkcUfHud6UbmSzjZ4yMO2mB1pl972iCSVKPMolLnHKOjVasnfEfMDeWkwI61gMUw1npWGT0Pt_OIzIUcbtwkNz8nmvq7Bhrf4jWa-1Mb9_a1tsd5bTLdnvCr1ouCrF0Y3Jmnu-3UVMAx3vI2Vy99YwwRwWWxyWv9DUdH68WhpQlDmOROT5-QIGMNs8JEu6ORXRH3wR68RLu-f5zAMs0J4rLkt2Yd3B4cWAN8rYVGU5DhxKlDGuMu3icK4PmcN3pKGY"/>
+<div class="absolute inset-0 flex flex-col justify-end p-margin-desktop md:p-20 curatorial-overlay">
+<div class="max-w-4xl">
+<span class="font-label-md text-label-md text-secondary-container uppercase tracking-widest mb-4 block">Current Exhibition</span>
+<h1 class="font-display-lg text-white text-7xl md:text-8xl leading-none mb-8">The Obsidian Collective: Volume I</h1>
+<p class="font-body-lg text-white/80 max-w-2xl mb-10">
+                        An exploration of digital permanence and physical decay. Volume I curates a series of dialogues between light-reactive sculptures and generative digital landscapes.
+                    </p>
+<div class="flex gap-4">
+<button class="bg-white text-primary px-8 py-4 font-label-md text-label-md uppercase tracking-widest transition-transform active:scale-95">Explore Collection</button>
+<button class="border border-white/30 text-white px-8 py-4 font-label-md text-label-md uppercase tracking-widest hover:bg-white/10 transition-colors">Exhibition Info</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter Bar -->
+<section class="sticky top-[90px] z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<div class="max-w-container-max mx-auto px-margin-desktop py-6 flex flex-wrap items-center justify-between gap-4">
+<div class="flex gap-8 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+<button class="font-label-md text-label-md uppercase text-primary border-b border-primary whitespace-nowrap">All Works</button>
+<button class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Digital Canvas</button>
+<button class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Monoliths</button>
+<button class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Oil &amp; Texture</button>
+<button class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Abstract Geometry</button>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase">Sorted by: Newest</span>
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</div>
+</div>
+</section>
+<!-- Artwork Grid (Masonry) -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-16">
+<div class="masonry-grid gap-10">
+<!-- Card 1 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Luminous Decay I" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700" data-alt="A minimalist abstract artwork featuring high-contrast flowing textures of Obsidian black and soft white, resembling smoke or ink in water. The style is meticulous and modern, evoking a sense of calm and precision. The lighting is soft and even, highlighting the delicate textures against a pure white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfz2nxIpSFWJrLRfuU3KODINyAoorDmdoPTyjaCklzLDO6fJDI9YP2C1mzu7-2OB6wEsWJephO27mcKgg7UiWuV82J-TAlFh_0iHpABV2Ci-YictmkkXgoW9rx33ezglbDjlWWJ4EIu6PXNpH_Fnc_rU8Bh1pAaEnF5pIpKG37NRAY68bGT1BR4Xf6hGpXip_xS4iXK_9RZzi9s7tvdiAIdu4uTan__PjMN2JGuuLwY6ZrYwcdcT7cUugnNAULlDeM2hAMfQbIRSk"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Luminous Decay I</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Elena Rostova</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Static Monolith" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700" data-alt="A sharp, brutalist sculpture made of dark, reflective stone in a bright gallery. The sculpture is a singular rectangular block with intricate mechanical etchings on its surface. The lighting comes from above, creating sharp, dramatic shadows on the white floor, emphasizing its monumental and quiet presence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhkq_Fy7X6Gnc_oItrFBIc62tiQF5MGCZhJe4D0z23kp_dUuZ4Lqa3T3PZVqoX9U01A3hzyBYnrGcz3VfzQOFLifCv946t0QwyLMOUuhhpCV5ndIid3e1XPHwh_tUmdX0x3gvKfU-Z67JiHKVHg6ZnQbvr4Lizxne3pw5kgXdrEajfiLoTrw7CMvLrti4lpOh0NO455EQq56pncMry87eIWl4We_C8AEBP42ImeAYY-8XPEhMb5i825XLsX-uNxuK9r8_itxgw7YU"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Static Monolith</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Soren K. Voss</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Digital Void" class="w-full h-auto transition-all duration-700" data-alt="A modern digital painting of complex geometric shapes in gradients of deep grey and metallic gold. The composition is asymmetrical and high-end, fitting a luxury gallery aesthetic. The background is clean and neutral, making the intricate golden details pop with a subtle shimmer under simulated gallery spotlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoZh2Uk4TtU5ASvoZE_8_SNIotUevm0fM9ASqXWXnShgpN1HE4tEgqMi_Pj9d2LxtoUKE3tBrJQNKtwQYdu4Ghf-ZX6LFwhWWNsXWheH2N4X3UL4VrlygWRxAqQTq0iaaZqD3IWGlPEX3PPI5vHs-zoCSKesRasmaatikcWEUUQZbC_aG5YOahWa1wAPbNekqN8VHY_Hcq_dn89wSSAt3lPXyxHuM3ltIdrRLrH0pZBzx8lb2sMWMTzRw6gKaTj_UWvlyt3uQbB-A"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Digital Void</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Marcus Thorne</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Ephemeral Grid" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700" data-alt="An ethereal installation consisting of light-projected grids onto a dark surface. The grids are slightly distorted, creating an organic yet mathematical feel. The color palette is strictly obsidian and white, with thin, precise lines. The image captures the fragile, temporary nature of the digital medium in a museum setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9i-8_hFjj8DLOK0mXBbbhnGBDSbyRyplLSqC5kf_P9khY5DtLCdmI5Sqs2AJT28BPSP9acACGGnM3301dfTSpt-KWtDdER395CJBCQUBR3OvxSmPofFtt-zgpxPdikjoiXI_Y9SvWCAGH0UcT1m_Y4wwZeT4vQbukvu5e51Ng1vhBBVdch8SmBSdNWPcsbMJbdQLpi1m4b9kSpb3b8hAXiWM2vXcAFdSse35Jbr-bfOSCo9-eL4YwRzsq1R-7rvcx51xH1o8wmZs"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Ephemeral Grid</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Yuki Sato</p>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Fragmented Soul" class="w-full h-auto transition-all duration-700" data-alt="A textured oil painting of a single, fragmented abstract shape in the center of a wide white canvas. The strokes are thick and intentional, in varying shades of black and charcoal. The lighting highlights the impasto technique, showing the physical depth and shadow of the paint against the minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxUWZL0xgHmTT4IRvVcA9nGrsa6xtGcNTr0E-3VF8fVaEhttK67rUivJx2hzLTtQWHVkHWx66dJ-dZSbrA0_Qcbw8AloZLtlaFV7bfzUgCqOTPpyJB48O4F1vU5eC9MHriiR2oz_ylQDyjcWQgkrmxueUwQ--7XAVszYykguhllg3XlRU1WiCjFl6RhGaxBH3WQQQb3W567jX_FXiY4awlPX3dUk26Y1-9GIOhQ3ACb9dwSJPiClem5q40IwxHGe6kDPgGb-ZMBns"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Fragmented Soul</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Claire Beaumont</p>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="masonry-item artwork-card group cursor-pointer">
+<div class="relative overflow-hidden mb-6 border border-outline-variant">
+<img alt="Obsidian Flow" class="w-full h-auto transition-all duration-700" data-alt="A liquid-like sculpture made of black chrome, reflecting the gallery's bright ceiling lights. It appears to be melting onto its white marble pedestal. The contrast between the high-gloss black and the matte white surface creates a sophisticated, elite visual experience. The lighting is diffused, giving it a soft yet metallic sheen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHZOX14FC_I3ezApODYLBBAbuNo_1MF7s-6p4bcQlCgFaORK-3CJ3WNh4wrFzVNIM6jBITd-CWT-XugaT-MUgMPoJD1UgeOWsE98FytyuNunS02ofS1a8mztRdkl7aJk2jeQXJEsM0224eSfJ1NcgiC0jpcBO0XGDIeTXlEl6YKIC9MSRJDQ7fxMKtEECofkSxD4sIUx4BsUgINJz7z-bbHklJKkYyp2rvXiRaTM6hBJuBm7mF3Nhrw-6EEc7vVrzFgirPaVhmAa8"/>
+<div class="artwork-action absolute inset-0 bg-primary/20 opacity-0 transition-all duration-500 flex items-center justify-center translate-y-4">
+<span class="bg-white text-primary px-6 py-3 font-label-md text-label-md uppercase tracking-widest">View Artwork</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Obsidian Flow</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Julian Klay</p>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-20">
+<button class="font-label-md text-label-md uppercase tracking-[0.2em] border-b border-on-surface pb-2 hover:opacity-50 transition-opacity">Load More Curations</button>
+</div>
+</section>
+<!-- Newsletter / Institutional CTA -->
+<section class="bg-surface-container-low py-32 border-y border-outline-variant">
+<div class="max-w-2xl mx-auto px-margin-mobile text-center">
+<h2 class="font-display-lg text-headline-lg mb-6">Receive Curatorial Insights</h2>
+<p class="font-body-md text-on-surface-variant mb-12">Join our selective mailing list for private viewing invitations, artist interviews, and early access to Volume II.</p>
+<div class="flex flex-col md:flex-row gap-0 border border-primary">
+<input class="flex-grow bg-transparent border-none px-6 py-4 font-label-md focus:ring-0 placeholder:text-outline" placeholder="ENTER EMAIL ADDRESS" type="email"/>
+<button class="bg-primary text-white px-10 py-4 font-label-md text-label-md uppercase tracking-widest transition-opacity hover:opacity-90">Subscribe</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-start w-full px-margin-desktop py-12 gap-gutter max-w-container-max mx-auto">
+<div class="flex flex-col mb-8 md:mb-0">
+<div class="font-display-lg text-headline-sm tracking-widest text-primary uppercase mb-4">OBSIDIAN GALLERY</div>
+<p class="font-body-sm text-on-surface-variant max-w-xs">A virtual space dedicated to the intersection of traditional medium and the obsidian digital horizon.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md uppercase text-primary mb-2">Institutional</span>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Institutional Press</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md uppercase text-primary mb-2">Discovery</span>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Accessibility</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Artists</a>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-6 border-t border-outline-variant/30 flex justify-between items-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 OBSIDIAN GALLERY. ESTABLISHED FOR THE PRESERVATION OF VIRTUAL EXCELLENCE.</p>
+<div class="flex gap-4">
+<button class="scale-100 active:scale-95 transition-transform"><span class="material-symbols-outlined text-[18px]">share</span></button>
+<button class="scale-100 active:scale-95 transition-transform"><span class="material-symbols-outlined text-[18px]">mail</span></button>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for smooth scrolling or hover effects
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add a simple scroll effect to the header
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-sm');
+                nav.classList.add('bg-surface/95');
+            } else {
+                nav.classList.remove('shadow-sm');
+                nav.classList.remove('bg-surface/95');
+            }
+        });
+    </script>
+</body></html>
