@@ -14,7 +14,7 @@ export default function AdminDashboard({ setRole }) {
     const fetchInventory = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch("http://localhost:3000/api/artworks", {
+        const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ export default function AdminDashboard({ setRole }) {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch("http://localhost:3000/api/artworks", {
+      const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`

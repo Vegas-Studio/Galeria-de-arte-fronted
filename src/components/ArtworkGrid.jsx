@@ -13,7 +13,7 @@ export const ArtworkGrid = () => {
       try {
         const token = localStorage.getItem('token');
         // Asumiendo que este endpoint devuelve solo obras aprobadas
-        const response = await fetch("http://localhost:3000/api/artworks", {
+        const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
