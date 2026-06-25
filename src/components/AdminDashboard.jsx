@@ -3,95 +3,112 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard({ setRole }) {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [artworks, setArtworks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ totalCollection: 0, pendingReview: 0, storageUsed: "0 MB" });
 
-  useEffect(() => {
-    const createdUrls = [];
-
-    const fetchInventory = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+  const fetchInventory = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/artworks?status=Pendiente`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) throw new Error("Error al obtener inventario");
+      const data = await response.json();
+      
+      const raw = Array.isArray(data) ? data : [];
+      const processed = raw.map(art => {
+        let displayUrl = 'https://placehold.co/100?text=Err';
+        if (art.original_image) {
+          if (typeof art.original_image === 'string' && art.original_image.startsWith('http')) {
+            displayUrl = art.original_image;
+          } else if (typeof art.original_image === 'string') {
+            displayUrl = `data:image/jpeg;base64,${art.original_image}`;
           }
-        });
-        
-        if (!response.ok) throw new Error("Error al obtener inventario");
+        }
+        return { ...art, displayUrl };
+      });
+
+      setArtworks(processed);
+    } catch (error) {
+      console.error("Error cargando inventario:", error);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/artworks/admin/stats`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
         const data = await response.json();
-        
-        const raw = Array.isArray(data) ? data : [];
-        const processed = raw.map(art => {
-          let displayUrl = 'https://placehold.co/100?text=Err';
-          if (art.original_image) {
-            if (typeof art.original_image === 'string' && art.original_image.startsWith('http')) {
-              displayUrl = art.original_image;
-            } else if (typeof art.original_image === 'string') {
-              // Soporte para Base64
-              displayUrl = `data:image/jpeg;base64,${art.original_image}`;
-            } else if (art.original_image.data || Array.isArray(art.original_image)) {
-              const binaryData = art.original_image.data || art.original_image;
-              const blob = new Blob([new Uint8Array(binaryData)], { type: 'image/jpeg' });
-              displayUrl = URL.createObjectURL(blob);
-              createdUrls.push(displayUrl);
-            }
-          }
-          return { ...art, displayUrl };
-        });
-
-        setArtworks(processed);
-      } catch (error) {
-        console.error("Error cargando inventario:", error);
-      } finally {
-        setLoading(false);
+        setStats(data);
       }
-    };
+    } catch (error) {
+      console.error("Error cargando estadísticas:", error);
+    }
+  };
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => {
     fetchInventory();
-
-    return () => {
-      createdUrls.forEach(url => URL.revokeObjectURL(url));
-    };
+    fetchStats();
   }, []);
+
+  const handleUpdateStatus = async (id, status, message) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/artworks/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status, message })
+      });
+      if (response.ok) {
+        alert(`Obra ${status === 'Aprobado' ? 'aprobada' : 'rechazada'} correctamente.`);
+        fetchInventory();
+        fetchStats();
+      } else {
+        const err = await response.json();
+        alert(err.error || 'Error al actualizar el estado de la obra');
+      }
+    } catch (error) {
+      console.error('Error al actualizar estado:', error);
+      alert('Error de conexión al actualizar el estado.');
+    }
+  };
+
+  const handleApprove = async (id) => {
+    if (confirm("¿Estás seguro de que deseas aprobar esta obra?")) {
+      await handleUpdateStatus(id, 'Aprobado');
+    }
+  };
+
+  const handleRejectPrompt = async (id) => {
+    const reason = prompt("Introduce el motivo de rechazo (obligatorio):");
+    if (reason === null) return; // cancelado
+    if (!reason.trim()) {
+      alert("Debes proporcionar un motivo para rechazar la obra.");
+      return;
+    }
+    await handleUpdateStatus(id, 'Rechazado', reason);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
     setRole(null);
     navigate("/login");
-  };
-
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const token = localStorage.getItem('token');
-
-    try {
-      const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`
-          // No incluir Content-Type: multipart/form-data, el navegador lo hace automáticamente con FormData
-        },
-        body: formData
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert("Obra creada exitosamente");
-        setIsModalOpen(false);
-        // Recargar inventario
-        window.location.reload();
-      } else {
-        alert(result.error || result.errors?.[0]?.msg || "Error al subir obra");
-      }
-    } catch (error) {
-      console.error("Error en upload:", error);
-    }
   };
 
   const getStatusBadge = (status) => {
@@ -120,7 +137,7 @@ export default function AdminDashboard({ setRole }) {
               <span className="material-symbols-outlined">palette</span>
               <span className="font-label-md text-label-md uppercase">Artworks</span>
             </button>
-            <button onClick={() => alert("Módulo de artistas en desarrollo")} className="w-full flex items-center gap-4 px-4 py-4 text-on-surface-variant hover:bg-surface-container-highest transition-all">
+            <button onClick={() => navigate("/admin/artists")} className="w-full flex items-center gap-4 px-4 py-4 text-on-surface-variant hover:bg-surface-container-highest transition-all">
               <span className="material-symbols-outlined">person_outline</span>
               <span className="font-label-md text-label-md uppercase">Artists</span>
             </button>
@@ -148,6 +165,7 @@ export default function AdminDashboard({ setRole }) {
                 type="text" 
                 placeholder="Search artworks..." 
                 className="bg-transparent border-none focus:ring-0 font-body-sm w-full"
+                value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
@@ -164,24 +182,21 @@ export default function AdminDashboard({ setRole }) {
                 <h2 className="font-display-lg text-display-lg text-primary mb-2">Artwork Inventory</h2>
                 <p className="font-body-lg text-body-lg text-on-surface-variant">Manage the digital curation of the collection.</p>
               </div>
-              <button onClick={() => setIsModalOpen(true)} className="bg-primary text-on-primary px-8 py-4 font-label-md text-label-md uppercase tracking-[0.2em] flex items-center gap-2 hover:opacity-80 transition-all shadow-md">
-                <span className="material-symbols-outlined">add</span> Upload New Work
-              </button>
             </div>
 
             {/* Bento de Estadísticas */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-10">
               <div className="bg-white border border-outline-variant p-6 shadow-sm">
                 <span className="block font-label-md uppercase text-on-surface-variant mb-1">Total Collection</span>
-                <span className="text-headline-lg font-headline-lg">1,248</span>
+                <span className="text-headline-lg font-headline-lg">{stats.totalCollection}</span>
               </div>
               <div className="bg-white border border-outline-variant p-6 shadow-sm">
                 <span className="block font-label-md uppercase text-on-surface-variant mb-1">Pending Review</span>
-                <span className="text-headline-lg font-headline-lg text-secondary">24</span>
+                <span className="text-headline-lg font-headline-lg text-secondary">{stats.pendingReview}</span>
               </div>
               <div className="bg-white border border-outline-variant p-6 shadow-sm">
                 <span className="block font-label-md uppercase text-on-surface-variant mb-1">Storage Used</span>
-                <span className="text-headline-lg font-headline-lg">64%</span>
+                <span className="text-headline-lg font-headline-lg">{stats.storageUsed}</span>
               </div>
             </div>
 
@@ -193,11 +208,20 @@ export default function AdminDashboard({ setRole }) {
                     <th className="px-6 py-4">Preview</th>
                     <th className="px-6 py-4">Title</th>
                     <th className="px-6 py-4">Artist</th>
+                    <th className="px-6 py-4">Year</th>
+                    <th className="px-6 py-4">Technique</th>
                     <th className="px-6 py-4">Status</th>
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant">
+                  {Array.isArray(artworks) && artworks.filter(art => art?.title?.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+                    <tr>
+                      <td colSpan="7" className="px-6 py-16 text-center text-on-surface-variant italic">
+                        {searchTerm ? 'No se encontraron obras con ese título.' : 'No hay obras pendientes de revisión.'}
+                      </td>
+                    </tr>
+                  )}
                   {Array.isArray(artworks) && artworks.filter(art => art?.title?.toLowerCase().includes(searchTerm.toLowerCase())).map(art => (
                     <tr key={art.id} className="hover:bg-surface-container-low transition-colors group">
                       <td className="px-6 py-4">
@@ -212,11 +236,25 @@ export default function AdminDashboard({ setRole }) {
                       <td className="px-6 py-4">
                         <span className={getStatusBadge(art.status)}>{art.status}</span>
                       </td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="px-6 py-4 text-right flex justify-end gap-2">
+                        <button 
+                          onClick={() => handleApprove(art.id)} 
+                          className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 font-label-md uppercase text-[10px] tracking-wider rounded transition-colors"
+                        >
+                          Aprobar
+                        </button>
+                        <button 
+                          onClick={() => handleRejectPrompt(art.id)} 
+                          className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 font-label-md uppercase text-[10px] tracking-wider rounded transition-colors"
+                        >
+                          Rechazar
+                        </button>
                         <button 
                           onClick={() => navigate(`/admin/artwork/${art.id}`)} 
-                          className="text-primary hover:underline font-label-md uppercase text-label-md opacity-0 group-hover:opacity-100 transition-opacity"
-                        >Details</button>
+                          className="text-primary hover:underline font-label-md uppercase text-[10px] tracking-wider border border-primary px-3 py-1 rounded transition-colors ml-1"
+                        >
+                          Details
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -226,64 +264,6 @@ export default function AdminDashboard({ setRole }) {
           </div>
         </section>
       </main>
-
-      {/* Modal de Subida */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-          <div className="bg-white w-full max-w-2xl shadow-xl">
-            <div className="p-8 border-b border-outline-variant flex justify-between items-center">
-              <h3 className="font-headline-md text-headline-md text-primary font-bold uppercase">Upload New Work</h3>
-              <button onClick={() => setIsModalOpen(false)} className="material-symbols-outlined hover:bg-surface-container-low p-2">close</button>
-            </div>
-            <form className="p-8 space-y-6" onSubmit={handleUpload}>
-              <div className="grid grid-cols-2 gap-gutter">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block font-label-md text-[10px] uppercase text-on-surface-variant">Artwork Title</label>
-                    <input name="title" required className="w-full border-b border-primary py-2 bg-transparent" placeholder="e.g. Midnight Solace" />
-                  </div>
-                  <div>
-                    <label className="block font-label-md text-[10px] uppercase text-on-surface-variant">Creation Year</label>
-                    <input name="creation_year" type="number" required className="w-full border-b border-primary py-2 bg-transparent" placeholder="2024" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block font-label-md text-[10px] uppercase text-on-surface-variant">Technique</label>
-                    <input name="technique" required className="w-full border-b border-primary py-2 bg-transparent" placeholder="Oil on Canvas" />
-                  </div>
-                  <div>
-                    <label className="block font-label-md text-[10px] uppercase text-on-surface-variant">Dimensions</label>
-                    <input name="dimensions" required className="w-full border-b border-primary py-2 bg-transparent" placeholder="120 x 180 cm" />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-label-md text-[10px] uppercase text-on-surface-variant mb-2">Artwork Image</label>
-                <div className="border-2 border-dashed border-outline-variant p-8 text-center hover:border-primary transition-all relative">
-                  <input 
-                    type="file" 
-                    name="image" 
-                    required 
-                    accept="image/*"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  <span className="material-symbols-outlined text-4xl text-on-surface-variant">cloud_upload</span>
-                  <p className="font-body-sm text-on-surface-variant mt-2">
-                    Click or drag image here (Max 10MB)
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <button onClick={() => setIsModalOpen(false)} className="px-8 py-3 border border-primary font-label-md uppercase tracking-wider">Cancel</button>
-                <button type="submit" className="px-8 py-3 bg-secondary text-on-primary font-label-md uppercase tracking-wider">Confirm</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

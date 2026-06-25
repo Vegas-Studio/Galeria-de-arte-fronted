@@ -12,14 +12,15 @@ function AppContent({ role, setRole }) {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isArtistPage = location.pathname === "/artista";
 
   return (
     <div className="bg-surface text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
-      {!isLoginPage && !isAdminPage && <Navbar />}
-      <main className={isLoginPage || isAdminPage ? "" : "pt-[90px]"}>
+      {!isLoginPage && !isAdminPage && !isArtistPage && <Navbar />}
+      <main className={isLoginPage || isAdminPage || isArtistPage ? "" : "pt-[90px]"}>
         <AppRouter role={role} setRole={setRole} />
       </main>
-      {!isLoginPage && !isAdminPage && <Footer />}
+      {!isLoginPage && !isAdminPage && !isArtistPage && <Footer />}
     </div>
   );
 }
@@ -27,7 +28,9 @@ function AppContent({ role, setRole }) {
 function App() {
   // Cambiamos el estado inicial a null o Visitante para forzar 
   // que el login defina el rol real basado en el token del backend.
-  const [role, setRole] = useState(localStorage.getItem('token') ? 'admin' : 'Visitante');
+  // Lo ideal es recuperar el rol guardado en localStorage tras el login
+  const savedRole = localStorage.getItem('userRole') || 'Visitante';
+  const [role, setRole] = useState(savedRole);
 
   return (
     <Router>

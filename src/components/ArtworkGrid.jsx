@@ -6,6 +6,8 @@ export const ArtworkGrid = () => {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const createdUrls = [];
 
@@ -13,7 +15,7 @@ export const ArtworkGrid = () => {
       try {
         const token = localStorage.getItem('token');
         // Asumiendo que este endpoint devuelve solo obras aprobadas
-        const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/artworks", {
+        const response = await fetch(`${API_URL}/artworks`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

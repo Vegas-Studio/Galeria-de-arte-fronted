@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Artworks | Obsidian Gallery Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Hanken+Grotesk:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#474746",
+                    "surface-container": "#efeded",
+                    "inverse-surface": "#303031",
+                    "secondary-fixed-dim": "#e9c176",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-dim": "#dbdad9",
+                    "on-tertiary-container": "#838484",
+                    "surface-variant": "#e4e2e2",
+                    "secondary": "#775a19",
+                    "secondary-fixed": "#ffdea5",
+                    "on-background": "#1b1c1c",
+                    "outline-variant": "#c4c7c7",
+                    "inverse-primary": "#c8c6c5",
+                    "outline": "#747878",
+                    "background": "#fbf9f8",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#e5e2e1",
+                    "tertiary-container": "#1a1c1c",
+                    "on-surface": "#1b1c1c",
+                    "surface": "#fbf9f8",
+                    "on-secondary-container": "#785a1a",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e9e8e7",
+                    "primary": "#000000",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f5f3f3",
+                    "primary-container": "#1c1b1b",
+                    "on-primary-fixed": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#261900",
+                    "tertiary": "#000000",
+                    "secondary-container": "#fed488",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-surface-variant": "#444748",
+                    "inverse-on-surface": "#f2f0f0",
+                    "tertiary-fixed": "#e2e2e2",
+                    "surface-tint": "#5f5e5e",
+                    "on-primary-container": "#858383",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "surface-bright": "#fbf9f8",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed-variant": "#454747"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "margin-desktop": "40px",
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-sm": ["Libre Caslon Text"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "headline-lg": ["Libre Caslon Text"],
+                    "data-mono": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fbf9f8;
+            color: #1b1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f5f3f3;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4c7c7;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface-container-low border-r border-outline-variant flex flex-col py-unit z-50">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">palette</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-primary">Obsidian Gallery</h1>
+</div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider text-[10px]">Exhibition Management</p>
+</div>
+<nav class="flex-grow px-4 space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 text-primary font-bold border-l-4 border-primary bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-md uppercase">Artworks</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined">person_outline</span>
+<span class="font-label-md uppercase">Artists</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md uppercase">Messages</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md uppercase">Stats</span>
+</a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full py-4 bg-secondary text-on-secondary font-label-md uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                Publish Exhibition
+            </button>
+</div>
+<footer class="px-4 pt-4 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label-md uppercase">Support</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md uppercase">Logout</span>
+</a>
+</footer>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] h-screen overflow-y-auto custom-scrollbar px-margin-desktop">
+<!-- Top App Bar Content (Inline for context) -->
+<header class="sticky top-0 bg-surface/80 backdrop-blur-md z-40 border-b border-outline-variant h-16 flex justify-between items-center w-full">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Gallery Admin</h2>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container-low px-4 py-2 border border-outline-variant group">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 group-focus-within:text-primary">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search collection..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+<div class="w-8 h-8 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="Curator Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9-hRJpvRTkCaAC7HWvfBzowdTDxTJEN60938VBx5ydyanj72cNxXXKcSxVYhPVDcKCPGydk9_JNcA4NzuhvugwaHQvRiFBCOyW44tDHnuseeoRfqPry_AYJM7SBB7xC60QvLppe9Dt0m3DvXr56NRgutHokmj91KtA0Avs1NEU-by0u-pqzrD3QOWNkBUiuIe4KCAo42NEJFeZMT0jwubnTddxvlafkPAOcHp1pwDvqKf-5eoFB5x2Krlvfh214oh7ErAH_DPCcA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Portfolio Header Section -->
+<section class="py-12 flex flex-col md:flex-row justify-between items-end border-b border-outline-variant">
+<div class="space-y-4">
+<h1 class="font-display-lg text-display-lg text-primary">My Portfolio</h1>
+<div class="flex gap-12">
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Total Works</span>
+<span class="font-headline-lg text-headline-lg">42</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Published</span>
+<span class="font-headline-lg text-headline-lg">38</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest text-secondary">Pending Approval</span>
+<span class="font-headline-lg text-headline-lg text-secondary">04</span>
+</div>
+</div>
+</div>
+<button class="px-8 py-4 bg-primary text-on-primary font-label-md uppercase tracking-widest hover:bg-on-surface-variant transition-colors active:scale-95" onclick="toggleModal(true)">
+                Submit New Artwork
+            </button>
+</section>
+<!-- Tabbed Navigation -->
+<section class="mt-8">
+<div class="flex border-b border-outline-variant mb-gutter">
+<button class="px-8 py-4 font-label-md uppercase tracking-widest border-b-2 border-primary text-primary transition-colors">
+                    Published (38)
+                </button>
+<button class="px-8 py-4 font-label-md uppercase tracking-widest border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors">
+                    Pending Approval (4)
+                </button>
+</div>
+<!-- Artwork Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter pb-24">
+<!-- Published Card 1 -->
+<article class="bg-surface border border-outline-variant group">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A minimalist oil painting featuring deep charcoal brushstrokes against a stark ivory background. The composition is clean and focused, reflecting a high-end corporate art gallery aesthetic with soft, directional lighting that emphasizes the texture of the canvas. The overall mood is sophisticated and quiet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmpsEymCVYSSOGerSuRz5puUZQpP8Ycw9H4NAahfctXyAgPwGCl3T3ZH2WnFS_o4Uc8R8rJ8ofeJet0lsmLIr9YB2rBChWapHHF4C2ZnXL3wh_VGsyB100yfk2sCCq0n8Olcf09Y_TpZLI1jirUnaaWBd_mU5-tPMBoUXuEoOqG8sgL_HIMQBCaUrAMH8vBW2FAyXlyIK9SlGDxTrLCIlEK7DfrNi7cUssjv4kWlB8Of8i1Plec_TlXiGonRDkCcILZqNBZwoZ5v8"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Ether Vol. I</h3>
+<span class="px-2 py-1 border border-[#2e7d32] bg-[#f1f8e9] text-[#2e7d32] font-label-md text-[10px] uppercase">Aprobado</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mb-6">Oil on Canvas, 2023</p>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span>
+<span class="font-data-mono text-data-mono">1.2k</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">file_download</span>
+<span class="font-data-mono text-data-mono">342</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Pending Card 1 -->
+<article class="bg-surface border border-outline-variant group">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60" data-alt="Modern abstract digital rendering with vibrant gold highlights and obsidian textures. The artwork displays complex layering and depth, set in a clean-lit virtual space that matches a luxury art curator's private viewing room. Sharp lines and high contrast define the elite modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBobtMDchPpPLloKCFmJMsYA2dnHRdG2NUISt_ZC-2sLZSHq1gjn7Vd31aAy_pL3EiEjm752AbjDIn9xTQJ9rpsjsMy8LCgJq7asWayDivCJhphagAblU40mjS_7JrSH3Y9HpTEVF0vHjk27KT2uhtzg-BpX24EiXo8nYYkU7lbPv1A2ZoUI-89DF5DwGOy00Vl0f7GoHa07p9rM78ZZWs36SirsAtJ__vZJT-7HNVbz3nQBYdiCFTrSVn-sj4N0Bu6oZaXSZuuj3U"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-white/90 border border-secondary px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">hourglass_empty</span>
+<span class="font-label-md text-secondary uppercase">Curatorial Review</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Gilded Silence</h3>
+<p class="font-body-sm text-on-surface-variant mb-6">Mixed Media, 2024</p>
+<div class="bg-white p-4 border border-outline-variant">
+<p class="font-label-md uppercase text-on-surface-variant text-[10px] mb-2 tracking-widest">Curatorial Feedback</p>
+<p class="font-body-sm italic text-on-surface-variant leading-relaxed">"The color balance is excellent. Please provide a higher resolution scan of the upper quadrant for final verification."</p>
+</div>
+</div>
+</article>
+<!-- Published Card 2 -->
+<article class="bg-surface border border-outline-variant group">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A serene architectural photograph featuring geometric concrete structures against a deep blue dusk sky. The composition follows the golden ratio, evoking a sense of monumental peace. Minimalist lighting highlights the interplay of light and shadow on the rough surfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP6v7W8ScP_LXYM7zo722I35v9Ad5jjAhVfB8k9LP_spvu3Ig9-V_mKGDemZkxe27b_pmaBiqneUAyYT-8JylTSCEHoV0-X7Q1_1Jj91YqOf7E3tGCk0pZveMGrTJvZUDq5JV3SxYAH-qrSyMUI07Yff52lmsPZwKkZXzReMiKWSnq39a_OPh5BZmC2UQ6om5pbeUuthZ3FUkEbdkXadww8V2sDaqTn5mlbxmdMYYqyzruMNj7FTnCE2EdysJkU9TlmyGrHNibDyo"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Monolith Study</h3>
+<span class="px-2 py-1 border border-[#2e7d32] bg-[#f1f8e9] text-[#2e7d32] font-label-md text-[10px] uppercase">Aprobado</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mb-6">Digital Print, 2023</p>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span>
+<span class="font-data-mono text-data-mono">892</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">file_download</span>
+<span class="font-data-mono text-data-mono">156</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Pending Card 2 (Rejection example for variety) -->
+<article class="bg-surface border border-outline-variant group">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover opacity-40 grayscale group-hover:scale-105 transition-transform duration-700" data-alt="A complex floral arrangement captured with a moody, dark-mode color palette. Deep reds and purples emerge from shadows in a style reminiscent of Dutch Masters paintings. The lighting is focused and dramatic, suitable for an elite art exhibition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE1kvd6grwyRrlElY5TuLjkhIMC27hl2IfmJT7jD4kCoo2O5OfWxMkjOjlvXpesBmdgJbNgG65cjunEh-E12scmYIGCA7aTylyS6kL6uLNoKW-6Z9S_VVlRZElxoXxLZWsxqhncc60grkSO2_H-Z_vLcFG8H6EWhVkgem0LgJA90E6xNUWf480S-zBHb9zuSsbdzjTDugLdRG5YBTZ-u5xzCKx5CwvIDDhMrzNhO9W43JldA3mkzY885TZbjrzq-fjDcOx6pmf6uQ"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-white/90 border border-error px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-error">report_problem</span>
+<span class="font-label-md text-error uppercase">Rechazado</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Bloom Decay</h3>
+<p class="font-body-sm text-on-surface-variant mb-6">Digital Sculpture, 2024</p>
+<div class="bg-white p-4 border border-error/20">
+<p class="font-label-md uppercase text-error text-[10px] mb-2 tracking-widest">Revision Required</p>
+<p class="font-body-sm italic text-on-surface-variant leading-relaxed">"The metadata exceeds the character limit for the exhibition title. Please shorten and resubmit for approval."</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Modal for New Artwork Submission -->
+<div class="fixed inset-0 bg-primary/40 backdrop-blur-sm z-[100] hidden items-center justify-center p-gutter" id="uploadModal">
+<div class="bg-surface w-full max-w-2xl border border-outline-variant flex flex-col max-h-[921px]">
+<div class="p-8 border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-primary">Submit New Artwork</h2>
+<button class="material-symbols-outlined cursor-pointer hover:rotate-90 transition-transform" onclick="toggleModal(false)">close</button>
+</div>
+<div class="p-8 overflow-y-auto custom-scrollbar space-y-8">
+<div class="group border-2 border-dashed border-outline-variant p-12 text-center hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-4xl mb-4 text-on-surface-variant group-hover:text-primary">upload_file</span>
+<p class="font-body-md text-on-surface-variant">Drag and drop high-resolution file or <span class="text-primary font-bold">browse</span></p>
+<p class="text-[11px] font-label-md uppercase text-on-surface-variant mt-2 tracking-widest">Max 50MB, TIFF or ProPhoto RGB preferred</p>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<div class="space-y-2">
+<label class="font-label-md uppercase tracking-widest text-[10px]">Artwork Title</label>
+<input class="w-full border-b border-outline focus:border-primary border-t-0 border-l-0 border-r-0 bg-transparent py-2 focus:ring-0" placeholder="e.g. Echoes of Midnight" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md uppercase tracking-widest text-[10px]">Medium</label>
+<select class="w-full border-b border-outline focus:border-primary border-t-0 border-l-0 border-r-0 bg-transparent py-2 focus:ring-0 appearance-none">
+<option>Oil on Canvas</option>
+<option>Digital Installation</option>
+<option>Mixed Media</option>
+<option>Photography</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md uppercase tracking-widest text-[10px]">Exhibition Statement</label>
+<textarea class="w-full border border-outline-variant focus:border-primary bg-transparent p-4 focus:ring-0" placeholder="Describe the conceptual framework of this piece..." rows="4"></textarea>
+</div>
+</div>
+<div class="p-8 border-t border-outline-variant flex justify-end gap-6">
+<button class="px-8 py-3 font-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" onclick="toggleModal(false)">Cancel</button>
+<button class="px-8 py-3 bg-primary text-on-primary font-label-md uppercase tracking-widest hover:bg-on-surface-variant transition-colors">Submit for Review</button>
+</div>
+</div>
+</div>
+<script>
+        function toggleModal(show) {
+            const modal = document.getElementById('uploadModal');
+            if (show) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Close modal on ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') toggleModal(false);
+        });
+    </script>
+</body></html>

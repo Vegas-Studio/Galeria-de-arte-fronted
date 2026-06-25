@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../components/Home";
 import About from "../components/About";
 import { Hero } from "../components/Hero";
 import { Filterbar } from "../components/FilterBar";
@@ -8,6 +7,10 @@ import { Newsletter } from "../components/Newsletter";
 import { Leftsection } from "../components/LeftSection";
 import { Rightsection } from "../components/RightSection";
 import AdminDashboard from "../components/AdminDashboard";
+import ArtistModule from "../components/ArtistModule";
+import { ArtistGrid } from "../components/ArtistGrid";
+import ArtistDetail from "../components/ArtistDetail";
+import ArtistForm from "../components/ArtistForm";
 import ArtworkDetail from "../components/ArtworkDetail";
 
 export function AppRouter({ role, setRole }) {
@@ -30,7 +33,15 @@ export function AppRouter({ role, setRole }) {
         </main>
       } />
       <Route path="/admin" element={<AdminDashboard setRole={setRole} />} />
+      {/* Rutas para gestión de obras */}
       <Route path="/admin/artwork/:id" element={<ArtworkDetail />} />
+      {/* Rutas para gestión de artistas */}
+      <Route path="/admin/artists" element={<ArtistGrid />} />
+      {/* Ruta para el módulo de artista (acceso directo para el rol Artista) */}
+      <Route path="/artista" element={<ArtistModule setRole={setRole} />} />
+      <Route path="/admin/artists/new" element={<ArtistForm />} />
+      <Route path="/admin/artists/:id/edit" element={<ArtistForm />} />
+      <Route path="/admin/artists/:id" element={<ArtistDetail />} />
       <Route path="/artwork/:id" element={<ArtworkDetail />} />
     </Routes>
   );

@@ -16,7 +16,7 @@ export function Rightsection({ role, setRole }) {
     const loginData = { ...data, role };
 
     try {
-      const response = await fetch("https://galeria-de-arte-backend.onrender.com/api/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,13 +30,18 @@ export function Rightsection({ role, setRole }) {
         if (result.token) {
           localStorage.setItem('token', result.token);
         }
-        // Actualizamos el rol global con lo que diga el servidor
-        // El backend suele devolver el rol en result.role o result.user.role
+
+        // Obtenemos el rol del servidor y lo persistimos
         const userRole = result.role || result.user?.role || role;
+        localStorage.setItem('userRole', userRole); 
         setRole(userRole);
 
-        // Comprobamos el rol ignorando mayúsculas/minúsculas
-        if (userRole?.toLowerCase() === 'admin') {
+        const lowerRole = userRole?.toLowerCase();
+
+        // Lógica de redirección basada en el rol
+        if (lowerRole === 'artista') {
+          navigate("/artista");
+        } else if (lowerRole === 'admin') {
           navigate("/admin");
         } else {
           navigate("/");

@@ -9,13 +9,15 @@ export default function ArtworkDetail() {
   const [loading, setLoading] = useState(true);
   const isAdminView = location.pathname.startsWith("/admin");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     let currentUrl = null;
 
     const fetchArtworkDetail = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://galeria-de-arte-backend.onrender.com/api/artworks/${id}`, {
+        const response = await fetch(`${API_URL}/artworks/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -59,14 +61,23 @@ export default function ArtworkDetail() {
 
   const handleStatusUpdate = async (newStatus) => {
     const token = localStorage.getItem('token');
+    let message;
+    if (newStatus === 'Rechazado') {
+      message = prompt('Introduce el motivo de rechazo (obligatorio):');
+      if (message === null) return;
+      if (!message.trim()) {
+        alert('Debes proporcionar un motivo para rechazar la obra.');
+        return;
+      }
+    }
     try {
-      const response = await fetch(`https://galeria-de-arte-backend.onrender.com/api/artworks/${id}/status`, {
+      const response = await fetch(`${API_URL}/artworks/${id}/status`, {
         method: "PATCH",
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ status: newStatus, message })
       });
 
       if (response.ok) {
