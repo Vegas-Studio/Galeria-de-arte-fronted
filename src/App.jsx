@@ -10,17 +10,17 @@ import { AppRouter } from "./router/AppRouter";
  */
 function AppContent({ role, setRole }) {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isAuthPage = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
   const isAdminPage = location.pathname.startsWith("/admin");
   const isArtistPage = location.pathname === "/artista";
 
   return (
     <div className="bg-surface text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
-      {!isLoginPage && !isAdminPage && !isArtistPage && <Navbar />}
-      <main className={isLoginPage || isAdminPage || isArtistPage ? "" : "pt-[90px]"}>
+      {!isAuthPage && !isAdminPage && !isArtistPage && <Navbar />}
+      <main className={isAuthPage || isAdminPage || isArtistPage ? "" : "pt-[90px]"}>
         <AppRouter role={role} setRole={setRole} />
       </main>
-      {!isLoginPage && !isAdminPage && !isArtistPage && <Footer />}
+      {!isAuthPage && !isAdminPage && !isArtistPage && <Footer />}
     </div>
   );
 }

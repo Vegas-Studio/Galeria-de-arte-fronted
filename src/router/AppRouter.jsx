@@ -12,6 +12,9 @@ import { ArtistGrid } from "../components/ArtistGrid";
 import ArtistDetail from "../components/ArtistDetail";
 import ArtistForm from "../components/ArtistForm";
 import ArtworkDetail from "../components/ArtworkDetail";
+import Register from "../components/Register";
+import ForgotPassword from "../components/ForgotPassword";
+import ResetPassword from "../components/ResetPassword";
 
 export function AppRouter({ role, setRole }) {
   return (
@@ -32,6 +35,9 @@ export function AppRouter({ role, setRole }) {
           <Rightsection role={role} setRole={setRole} />
         </main>
       } />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/admin" element={<AdminDashboard setRole={setRole} />} />
       {/* Rutas para gestión de obras */}
       <Route path="/admin/artwork/:id" element={<ArtworkDetail />} />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function PasswordField() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,12 +13,12 @@ export default function PasswordField() {
         >
           Access Key
         </label>
-        <a
+        <Link
+          to="/forgot-password"
           className="font-label-md text-label-md text-secondary hover:underline"
-          href="#"
         >
           Forgot?
-        </a>
+        </Link>
       </div>
       <div className="relative">
         <input
