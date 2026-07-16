@@ -23,12 +23,6 @@ export const Navbar = () => {
           >
             About
           </Link>
-          <a
-            className="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200"
-            href="#"
-          >
-            Archive
-          </a>
         </div>
         <div className="flex items-center gap-6">
           <button className="hover:text-primary transition-colors">

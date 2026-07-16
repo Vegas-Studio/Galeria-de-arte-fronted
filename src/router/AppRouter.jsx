@@ -1,9 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import About from "../components/About";
 import { Hero } from "../components/Hero";
-import { Filterbar } from "../components/FilterBar";
 import { ArtworkGrid } from "../components/ArtworkGrid";
-import { Newsletter } from "../components/Newsletter";
 import { Leftsection } from "../components/LeftSection";
 import { Rightsection } from "../components/RightSection";
 import AdminDashboard from "../components/AdminDashboard";
@@ -23,9 +21,7 @@ export function AppRouter({ role, setRole }) {
       <Route path="/" element={
         <>
           <Hero />
-          <Filterbar />
           <ArtworkGrid />
-          <Newsletter />
         </>
       } />
       <Route path="/about" element={<About />} />

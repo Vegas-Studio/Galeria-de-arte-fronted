@@ -13,6 +13,7 @@ export default function ArtistModule({ setRole }) {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFileName, setSelectedFileName] = useState("");
     const [expandedMessageId, setExpandedMessageId] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const API_URL = import.meta.env.VITE_API_URL;
 
@@ -238,9 +239,17 @@ export default function ArtistModule({ setRole }) {
     const rejectedCount = artworks.filter(art => art.status === 'Rechazado').length;
 
     return (
-        <div className="font-body-md text-body-md bg-background min-h-screen">
+        <div className="font-body-md text-body-md bg-background min-h-screen flex relative overflow-hidden">
+            {/* Overlay para cerrar sidebar en móvil */}
+            {isSidebarOpen && (
+                <div 
+                    onClick={() => setIsSidebarOpen(false)} 
+                    className="fixed inset-0 bg-black/40 z-40 md:hidden"
+                />
+            )}
+
             {/* Sidebar Navigation */}
-            <aside className="fixed left-0 top-0 h-full w-[280px] bg-surface-container-low border-r border-outline-variant flex flex-col py-unit z-50">
+            <aside className={`fixed left-0 top-0 h-full w-[280px] bg-surface-container-low border-r border-outline-variant flex flex-col py-unit z-50 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
                 <div className="px-6 py-8">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="w-10 h-10 bg-primary flex items-center justify-center">
@@ -252,21 +261,21 @@ export default function ArtistModule({ setRole }) {
                 </div>
                 <nav className="flex-grow px-4 space-y-1">
                     <button 
-                        onClick={() => setCurrentView('artworks')}
+                        onClick={() => { setCurrentView('artworks'); setIsSidebarOpen(false); }}
                         className={`w-full flex items-center gap-4 px-4 py-3 transition-all ${currentView === 'artworks' ? 'text-primary font-bold border-l-4 border-primary bg-surface-container-high' : 'text-on-surface-variant hover:bg-surface-container-highest'}`}
                     >
                         <span className="material-symbols-outlined">palette</span>
                         <span className="font-label-md uppercase">Artworks</span>
                     </button>
                     <button 
-                        onClick={() => setCurrentView('profile')}
+                        onClick={() => { setCurrentView('profile'); setIsSidebarOpen(false); }}
                         className={`w-full flex items-center gap-4 px-4 py-3 transition-all ${currentView === 'profile' ? 'text-primary font-bold border-l-4 border-primary bg-surface-container-high' : 'text-on-surface-variant hover:bg-surface-container-highest'}`}
                     >
                         <span className="material-symbols-outlined">person_outline</span>
                         <span className="font-label-md uppercase">Profile</span>
                     </button>
                     <button 
-                        onClick={() => setCurrentView('messages')}
+                        onClick={() => { setCurrentView('messages'); setIsSidebarOpen(false); }}
                         className={`w-full flex items-center gap-4 px-4 py-3 transition-all ${currentView === 'messages' ? 'text-primary font-bold border-l-4 border-primary bg-surface-container-high' : 'text-on-surface-variant hover:bg-surface-container-highest'}`}
                     >
                         <span className="material-symbols-outlined">mail</span>
@@ -282,9 +291,17 @@ export default function ArtistModule({ setRole }) {
             </aside>
 
             {/* Main Content */}
-            <main className="ml-[280px] min-h-screen px-margin-desktop overflow-y-auto">
+            <main className="ml-0 md:ml-[280px] flex-grow min-h-screen px-margin-desktop overflow-y-auto w-full">
                 <header className="sticky top-0 bg-surface/80 backdrop-blur-md z-40 border-b border-outline-variant h-16 flex justify-between items-center w-full">
-                    <h2 className="font-headline-md text-headline-md font-bold text-primary">Artist Panel</h2>
+                    <div className="flex items-center">
+                        <button 
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+                            className="md:hidden mr-4 text-primary focus:outline-none flex items-center"
+                        >
+                            <span className="material-symbols-outlined">menu</span>
+                        </button>
+                        <h2 className="font-headline-md text-headline-md font-bold text-primary">Artist Panel</h2>
+                    </div>
                     <div className="flex items-center gap-6">
                         <div className="flex items-center bg-surface-container-low px-4 py-2 border border-outline-variant group">
                             <span className="material-symbols-outlined text-on-surface-variant mr-2 group-focus-within:text-primary">search</span>

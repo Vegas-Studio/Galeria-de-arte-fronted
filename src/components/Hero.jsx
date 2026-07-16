@@ -15,19 +15,9 @@ export const Hero = () => {
           <h1 className="font-display-lg text-white text-7xl md:text-8xl leading-none mb-8">
             The Obsidian Collective: Volume I
           </h1>
-          <p className="font-body-lg text-white/80 max-w-2xl mb-10">
-            An exploration of digital permanence and physical decay. Volume I
-            curates a series of dialogues between light-reactive sculptures and
-            generative digital landscapes.
+          <p className="font-body-lg text-white/80 max-w-2xl mb-0">
+            A space for digital preservation and to prevent physical decay.
           </p>
-          <div className="flex gap-4">
-            <button className="bg-white text-primary px-8 py-4 font-label-md text-label-md uppercase tracking-widest transition-transform active:scale-95">
-              Explore Collection
-            </button>
-            <button className="border border-white/30 text-white px-8 py-4 font-label-md text-label-md uppercase tracking-widest hover:bg-white/10 transition-colors">
-              Exhibition Info
-            </button>
-          </div>
         </div>
       </div>
     </section>

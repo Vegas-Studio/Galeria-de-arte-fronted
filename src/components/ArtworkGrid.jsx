@@ -103,7 +103,7 @@ export const ArtworkGrid = () => {
       
       <div className="flex justify-center mt-20">
         <button className="font-label-md text-label-md uppercase tracking-[0.2em] border-b border-on-surface pb-2 hover:opacity-50 transition-opacity">
-          Load More Curations
+          Load More Artworks
         </button>
       </div>
     </section>
