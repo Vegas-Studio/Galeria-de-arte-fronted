@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard({ setRole }) {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("Aprobado"); // "Aprobado" | "Pendiente" | "Rechazado"
   const [searchTerm, setSearchTerm] = useState("");
   const [artworks, setArtworks] = useState([]);
-  const [stats, setStats] = useState({ totalCollection: 0, pendingReview: 0, storageUsed: "0 MB" });
+  const [stats, setStats] = useState({ totalCollection: 0, pendingReview: 0, rejected: 0 });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const fetchInventory = async () => {
+  const fetchInventory = async (status = activeTab) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/artworks`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/artworks?status=${status}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -59,9 +60,9 @@ export default function AdminDashboard({ setRole }) {
   };
 
   useEffect(() => {
-    fetchInventory();
+    fetchInventory(activeTab);
     fetchStats();
-  }, []);
+  }, [activeTab]);
 
   const handleUpdateStatus = async (id, status, message) => {
     try {
@@ -76,7 +77,7 @@ export default function AdminDashboard({ setRole }) {
       });
       if (response.ok) {
         alert(`Obra ${status === 'Aprobado' ? 'aprobada' : 'rechazada'} correctamente.`);
-        fetchInventory();
+        fetchInventory(activeTab);
         fetchStats();
       } else {
         const err = await response.json();
@@ -225,20 +226,41 @@ export default function AdminDashboard({ setRole }) {
               </div>
             </div>
 
-            {/* Bento de Estadísticas */}
+            {/* Botones de Selección de Listas */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-10">
-              <div className="bg-white border border-outline-variant p-6 shadow-sm">
+              <button 
+                onClick={() => setActiveTab("Aprobado")}
+                className={`p-6 border text-left transition-all outline-none ${
+                  activeTab === "Aprobado" 
+                    ? "border-primary bg-primary/5 shadow-sm font-bold" 
+                    : "bg-white border-outline-variant hover:bg-surface-container-low"
+                }`}
+              >
                 <span className="block font-label-md uppercase text-on-surface-variant mb-1">Total Collection</span>
                 <span className="text-headline-lg font-headline-lg">{stats.totalCollection}</span>
-              </div>
-              <div className="bg-white border border-outline-variant p-6 shadow-sm">
+              </button>
+              <button 
+                onClick={() => setActiveTab("Pendiente")}
+                className={`p-6 border text-left transition-all outline-none ${
+                  activeTab === "Pendiente" 
+                    ? "border-secondary bg-secondary/5 shadow-sm font-bold" 
+                    : "bg-white border-outline-variant hover:bg-surface-container-low"
+                }`}
+              >
                 <span className="block font-label-md uppercase text-on-surface-variant mb-1">Pending Review</span>
                 <span className="text-headline-lg font-headline-lg text-secondary">{stats.pendingReview}</span>
-              </div>
-              <div className="bg-white border border-outline-variant p-6 shadow-sm">
-                <span className="block font-label-md uppercase text-on-surface-variant mb-1">Storage Used</span>
-                <span className="text-headline-lg font-headline-lg">{stats.storageUsed}</span>
-              </div>
+              </button>
+              <button 
+                onClick={() => setActiveTab("Rechazado")}
+                className={`p-6 border text-left transition-all outline-none ${
+                  activeTab === "Rechazado" 
+                    ? "border-error bg-error-container/20 shadow-sm font-bold" 
+                    : "bg-white border-outline-variant hover:bg-surface-container-low"
+                }`}
+              >
+                <span className="block font-label-md uppercase text-on-surface-variant mb-1">Rejected</span>
+                <span className="text-headline-lg font-headline-lg text-error">{stats.rejected}</span>
+              </button>
             </div>
 
             {/* Tabla de Datos */}
